@@ -23,8 +23,13 @@ namespace WebSite
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/Invoice").Include(
+                      "~/Scripts/Invoice/common.js"));
+
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/invoice.css", 
                       "~/Content/site.css"));
         }
     }

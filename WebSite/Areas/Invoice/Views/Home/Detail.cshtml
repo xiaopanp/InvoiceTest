@@ -1,0 +1,199 @@
+﻿@{
+    ViewBag.Title = "About";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+} 
+<div id="app">
+    <div class="">
+        <header id="header">
+            <div class="loader">
+                <div class="loader-progress" style="width:0%;"></div>
+            </div>
+            <div class="header-container">
+                <!-- 菜单按钮  隐藏 -->
+                <!-- <div id="sidebar">
+                    <button>菜单</button>
+                </div> --> 
+            </div>
+            <div class="notification-list label notification-list-empty"></div>
+            <!-- 公告 -->
+            <div class="noticeIcon"><i class="triangle"></i></div>
+            <div class="noticeCon">
+                <header class="noticeConHd">关于变更电子发票的公告</header>
+                <div class="noticeMain">
+                    <p class="conHd">尊敬的顾客：</p>
+                    <p class="paragraph">根据《关于推行通过增值税电子发票系统开具的增值税电子普通发票有关问题的公告》（国家税务总局公告2015年第84号），我司已逐步在部分星巴克门店推行增值税电子普通发票。如顾客需要纸质发票，可以自行打印增值税电子普通发票的版式文件，其法律效力、基本用途、基本使用规定等与税务机关监制的增值税普通发票相同。</p>
+                    <p class="paragraph">您可通过扫描收银条下方的二维码或输入电子发票提取码的方式开具增值税电子普通发票。如您对电子发票的开具有任何疑问，请点击查看<a class="answer" href="">常见问题解答</a>或致电收银条上的电子发票服务热线垂询。</p>
+                    <p class="conFt">2016年12月20日</p>
+                </div>
+            </div>
+        </header>
+        <!-- 主要区域 -->
+        <section id="main" class="main invoice invoiceSuccess">
+            <div>
+                <!-- 中英文切换按钮 -->
+                <div class="togBtn">
+                    <!-- 当前的语言的当前颜色now -->
+                    <a href="" class="now">中文&nbsp;</a>/
+                    <a href="" class="">English</a>
+                </div>
+                <h1 class="hot">开票成功！</h1>
+                <div class="block">
+                    <div class="box container">
+                        <div class="invoiceSuccess_in">
+                            <header class="clearfix ">
+                                <p class="fl">发票抬头</p>
+                                <p class="fr">深圳市品道餐饮管理有限公司</p>
+                            </header>
+                            <ul>
+                                <li class="clearfix">
+                                    <p class="fl">名称</p>
+                                    <p class="fr">星巴克咖啡（深圳）有限公司</p>
+                                </li>
+                                <li class="clearfix ">
+                                    <p class="fl">税号</p>
+                                    <p class="fr">914403007388010820</p>
+                                </li>
+                                <li class="clearfix">
+                                    <p class="fl">地址</p>
+                                    <p class="fr">深圳市福田区华强北街道华富路1018号中航中心大厦7楼01单元</p>
+                                </li>
+                                <li class="clearfix">
+                                    <p class="fl">电话</p>
+                                    <p class="fr">0755-66618908</p>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- check the email 2 hours later -->
+                        <div class="tipsContainer tc">
+                            <p>电子发票会自动发送到您的邮箱</p>
+                            <p>请在24小时后查收</p>
+                        </div>
+                        <div class="invoiceSuccess_in out">
+                            <ul class="nodash">
+                                <li class="clearfix">
+                                    <p class="fl">金额</p>
+                                    <p class="fr">￥50.94</p>
+                                </li>
+                                <li class="clearfix ">
+                                    <p class="fl">税额</p>
+                                    <p class="fr">￥3.06</p>
+                                </li>
+                                <li class="clearfix">
+                                    <p class="fl">价税合计</p>
+                                    <p class="fr">￥54.0</p>
+                                </li>
+                            </ul>
+                            <ul>
+                                <li class="clearfix">
+                                    <p class="fl">发票代码</p>
+                                    <p class="fr">044031700111</p>
+                                </li>
+                                <li class="clearfix ">
+                                    <p class="fl">发票号码</p>
+                                    <p class="fr">06365428</p>
+                                </li>
+                            </ul>
+                            <div class="Suc_btn clearfix tc">
+                                <div class="btn fl" id="btnSendEmail">发送到邮箱</div>
+                                <div class="fr btn" onclick="javascript: window.open('http://ei.51fapiao.cn:9080/51ptProxy_dj/fpxz?p=7d0d4806082f4f118d838301a1ae8d1d');" id="pdfDpwn">下载电子发票</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--开票失败提示-->
+        <section class="main invoice invoiceFail" style="display:none;">
+            <div>
+                <div class="block">
+                    <div class="box container tc">
+                        <img src="">
+                        <p class="">很抱歉，开票失败</p>
+                        <p class="">请稍后重试或联系客服 <span class="tel">400-820-6998</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- email input popup -->
+        <div class="down"></div>
+        <div id="emailInput" class="invoice_down tc">
+            <h3>我的邮箱</h3>
+            <i id="emailInputClose" class="close"></i>
+            <div class="formContainer">
+                <input type="text" placeholder="请输入我的常用邮箱 *" name="" autocomplete="no" maxlength="" id="emailAddress">
+                <div id="confirmSend" class="button tc button_confirm full-width">确认发送</div>
+            </div>
+        </div>
+        <!-- email sended popup -->
+        <div id="emailSended" class="invoice_down tc">
+            <i id="emailSendedClose" class="close"></i>
+            <div class="formContainer">
+                <p class="title">您的电子发票已发送到</p>
+                <p class="email_info">chenxiaobai@rongzer.com</p>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+<script language="javascript" type="text/javascript">
+    var mailFilter = /^([a-zA-Z0-9_\.\-])+([a-zA-Z0-9]{2,4})+$/;
+    $("#btnSendEmail").click(function (event) {
+        $("#emailAddress").val("");
+        $(".down,#emailInput").show('300');
+    });
+    $("#emailInputClose,.down").click(function (event) {
+        $("#emailInput,.down").hide('300');
+        $(".down").css('z-index', '5');
+    });
+    $("#confirmSend").click(function (event) {
+        var display = $("#emailInput").css("display");
+        var emailAddress = $("#emailAddress").val();
+        if (emailAddress == "") {
+            alert("请填写常用邮箱！");
+            return;
+        }
+        if (!mailFilter.test(emailAddress)) {
+            alert("邮箱格式不正确！");
+            return;
+        }
+        if (display == "block") {
+            $("#emailInput").hide('300');
+        }
+        var params = {};
+        params.method = "emailPushHandle";
+        params.EMAILADDRESS = emailAddress;
+        businessExec("billingService", params, function (data) {
+            if (data.suc == "true") {
+                $(".title").html("您的电子发票已发送到");
+                $(".email_info").html(emailAddress);
+                $("#emailSended").show("300");
+            } else {
+                $(".title").html("邮件发送异常，请稍后再试！");
+                $(".email_info").html("");
+                $("#emailSended").show("300");
+            }
+        });
+    });
+    $("#emailSendedClose,.down").click(function (event) {
+        var display = $("#emailInput").css("display");
+        if (display == "block") {
+            $("#emailInput").hide('300');
+        }
+        $("#emailSended,.down").hide('300');
+    });
+    //公告
+    var flge = 1;
+    $(".noticeIcon").click(function (event) {
+        if (flge == 1) {
+            $(".noticeCon").slideDown("300");
+            $(".triangle").show('100');
+            flge = 0;
+        } else {
+            $(".noticeCon").slideUp("300");
+            $(".triangle").hide('100');
+            flge = 1;
+        };
+    });
+</script>
+}

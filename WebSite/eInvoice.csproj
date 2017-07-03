@@ -114,6 +114,13 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Invoice\Controllers\HomeController.cs" />
     <Compile Include="Areas\Invoice\InvoiceAreaRegistration.cs" />
+    <Compile Include="Areas\Invoice\Models\InvoiceItemModel.cs" />
+    <Compile Include="Areas\Invoice\Models\InvoiceModel.cs" />
+    <Compile Include="Areas\Invoice\Models\TaxpayerModel.cs" />
+    <Compile Include="Areas\Invoice\Remote\IInvoice.cs" />
+    <Compile Include="Areas\Invoice\Remote\MockInvoiceManager .cs" />
+    <Compile Include="Areas\Invoice\Remote\InvoiceManager.cs" />
+    <Compile Include="Areas\Invoice\RmbCapitalization.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -123,10 +130,14 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\invoice.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="images\background.png" />
+    <Content Include="images\in_icon01.png" />
+    <Content Include="images\in_icon02.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -134,7 +145,10 @@
     </Content>
     <Content Include="Areas\Invoice\Views\web.config" />
     <Content Include="Areas\Invoice\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Invoice\Views\Home\Detail.cshtml" />
+    <Content Include="Areas\Invoice\Views\Shared\_Layout.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\Invoice\common.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -146,6 +160,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="template\qrcode.png" />
+    <Content Include="template\sign.png" />
+    <Content Include="template\电子发票.svg" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -163,8 +180,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Invoice\Models\" />
-    <Folder Include="Areas\Invoice\Views\Shared\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
