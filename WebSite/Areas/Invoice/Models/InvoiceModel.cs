@@ -6,7 +6,10 @@ using System.Web;
 namespace WebSite.Areas.Invoice.Models
 {
     public class InvoiceModel
-    {
+    {/// <summary>
+     /// 发票代码
+     /// </summary>
+        public virtual string InvoiceHeader { get; set; }
         /// <summary>
         /// 发票代码
         /// </summary>

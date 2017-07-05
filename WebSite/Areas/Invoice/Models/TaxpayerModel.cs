@@ -21,7 +21,11 @@ namespace WebSite.Areas.Invoice.Models
         /// <summary>
         /// 地 址、电 话
         /// </summary>
-        public virtual string Contcat { get; set; }
+        public virtual string Address { get; set; }
+        /// <summary>
+        /// 地 址、电 话
+        /// </summary>
+        public virtual string Phone { get; set; }
         /// <summary>
         /// 开户行及账号
         /// </summary>

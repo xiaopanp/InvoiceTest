@@ -42,24 +42,24 @@
                         <div class="invoiceSuccess_in">
                             <header class="clearfix ">
                                 <p class="fl">发票抬头</p>
-                                <p class="fr">深圳市品道餐饮管理有限公司</p>
+                                <p class="fr">@Model.InvoiceHeader</p>
                             </header>
                             <ul>
                                 <li class="clearfix">
                                     <p class="fl">名称</p>
-                                    <p class="fr">星巴克咖啡（深圳）有限公司</p>
+                                    <p class="fr">@Model.Seller.Name</p>
                                 </li>
                                 <li class="clearfix ">
                                     <p class="fl">税号</p>
-                                    <p class="fr">914403007388010820</p>
+                                    <p class="fr">@Model.Seller.TaxpayerNumber</p>
                                 </li>
                                 <li class="clearfix">
                                     <p class="fl">地址</p>
-                                    <p class="fr">深圳市福田区华强北街道华富路1018号中航中心大厦7楼01单元</p>
+                                    <p class="fr">@Model.Seller.Address</p>
                                 </li>
                                 <li class="clearfix">
                                     <p class="fl">电话</p>
-                                    <p class="fr">0755-66618908</p>
+                                    <p class="fr">@Model.Seller.Phone</p>
                                 </li>
                             </ul>
                         </div>
@@ -72,25 +72,25 @@
                             <ul class="nodash">
                                 <li class="clearfix">
                                     <p class="fl">金额</p>
-                                    <p class="fr">￥50.94</p>
+                                    <p class="fr">￥@(Model.SumAmountOfMoney())</p>
                                 </li>
                                 <li class="clearfix ">
                                     <p class="fl">税额</p>
-                                    <p class="fr">￥3.06</p>
+                                    <p class="fr">￥@(Model.SumTax())</p>
                                 </li>
                                 <li class="clearfix">
                                     <p class="fl">价税合计</p>
-                                    <p class="fr">￥54.0</p>
+                                    <p class="fr">￥@(Model.SumAmountOfMoney()+Model.SumTax())</p>
                                 </li>
                             </ul>
                             <ul>
                                 <li class="clearfix">
                                     <p class="fl">发票代码</p>
-                                    <p class="fr">044031700111</p>
+                                    <p class="fr">@Model.InvoiceCode</p>
                                 </li>
                                 <li class="clearfix ">
                                     <p class="fl">发票号码</p>
-                                    <p class="fr">06365428</p>
+                                    <p class="fr">@Model.InvoiceNumber</p>
                                 </li>
                             </ul>
                             <div class="Suc_btn clearfix tc">

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebSite.Areas.Invoice.Remote;
 
 namespace WebSite.Areas.Invoice.Controllers
 {
@@ -20,11 +21,14 @@ namespace WebSite.Areas.Invoice.Controllers
         public ActionResult Detail(string invoiceToket)
         {
             //调用查询接口
-
+            IInvoice invoice = new MockInvoiceManager();
+            var detail = invoice.GetInvoiceDetail(invoiceToket);
             //生成pdf
 
             //自动发送邮件
-            return View();
+             
+
+            return View(detail);
         }
     }
 }
