@@ -11,6 +11,7 @@ namespace WebSite.Areas.Invoice.Remote
         public InvoiceModel GetInvoiceDetail(string ticket)
         {
             InvoiceModel model = new InvoiceModel();
+            model.MachineCode = "22312313";
             model.InvoiceHeader = "深圳市品道餐饮管理有限公司";
             model.InvoiceCode = "035001600111";
             model.InvoiceNumber = "21801705";
@@ -25,7 +26,7 @@ namespace WebSite.Areas.Invoice.Remote
             model.Buyer.Address = "购买方地址";
             model.Buyer.Phone = "0592-223222";
             model.Buyer.BankAndAccountInfo = "购买方开户行及账号";
-            model.Buyer.Password = "+2/4<18>3++4>612>9+<9+/<666001 - +80 >/< 56744 * 8 > *99 - 2 >/ 0 +0 + 64868//4<<*++9>615+9+2928* 62292 < -+80 >/< 56744 * 8 > *> 036";
+            model.Password = "+2/4<18>3++4>612>9+<9+/<666001 - +80 >/< 56744 * 8 > *99 - 2 >/ 0 +0 + 64868//4<<*++9>615+9+2928* 62292 < -+80 >/< 56744 * 8 > *> 036";
 
             model.Items = new List<InvoiceItemModel>();
             model.Items.Add(new InvoiceItemModel()

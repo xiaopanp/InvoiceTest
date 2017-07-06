@@ -6,9 +6,14 @@ using System.Web;
 namespace WebSite.Areas.Invoice.Models
 {
     public class InvoiceModel
-    {/// <summary>
-     /// 发票代码
-     /// </summary>
+    {
+        /// <summary>
+        /// 机器编号
+        /// </summary>
+        public virtual string MachineCode { get; set; }
+        /// <summary>
+        /// 发票代码
+        /// </summary>
         public virtual string InvoiceHeader { get; set; }
         /// <summary>
         /// 发票代码
@@ -61,6 +66,18 @@ namespace WebSite.Areas.Invoice.Models
         /// </summary>
         public virtual string Review { get; set; }
         /// <summary>
+        /// 开票人
+        /// </summary>
+        public virtual string Printor { get; set; }
+        /// <summary>
+        /// 备注
+        /// </summary>
+        public virtual string Remark { get; set; }
+        /// <summary>
+        /// 密码区
+        /// </summary>
+        public virtual string Password { get; set; }
+        /// <summary>
         /// 价税合计
         /// </summary>
         /// <returns></returns>
@@ -77,7 +94,7 @@ namespace WebSite.Areas.Invoice.Models
         public double SumAmountOfMoney()
         {
             if (Items == null)
-                return 0;
+                return 0.0;
             return Items.Sum(a => a.AmountOfMoney);
         }
         /// <summary>
