@@ -26,7 +26,7 @@ namespace WebSite.Areas.Invoice.Remote
             model.Buyer.Address = "购买方地址";
             model.Buyer.Phone = "0592-223222";
             model.Buyer.BankAndAccountInfo = "购买方开户行及账号";
-            model.Password = "+2/4<18>3++4>612>9+<9+/<666001 - +80 >/< 56744 * 8 > *99 - 2 >/ 0 +0 + 64868//4<<*++9>615+9+2928* 62292 < -+80 >/< 56744 * 8 > *> 036";
+            model.Password = @"026>**>-46*+*-5<09>7422457//*/-192+1<>64*61<-*55>-*1/355><6>**>-46*+*-5<09332719/8001315544<<101>12932280-1251*+";
 
             model.Items = new List<InvoiceItemModel>();
             model.Items.Add(new InvoiceItemModel()
@@ -61,7 +61,9 @@ namespace WebSite.Areas.Invoice.Remote
             model.Seal = "";
 
             model.Payee = "收款人";
+            model.Printor = "开票人";
             model.Review = "复核";
+            model.Remark = "备注备注备注备注备注备注备注备注";
             return model;
         }
     }

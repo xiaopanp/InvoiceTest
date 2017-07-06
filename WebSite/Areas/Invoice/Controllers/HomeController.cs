@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using HtmlAgilityPack;
@@ -26,58 +27,58 @@ namespace WebSite.Areas.Invoice.Controllers
             var detail = invoice.GetInvoiceDetail(invoiceToket);
             //生成pdf
             HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
-            doc.Load(System.AppDomain.CurrentDomain.BaseDirectory+"template\\einvoice.svg");
+            doc.Load(System.AppDomain.CurrentDomain.BaseDirectory+"template\\einvoice.svg",Encoding.UTF8);
             //自动发送邮件
 
-            HtmlNode machineCode = doc.DocumentNode.SelectSingleNode("//[@id='MachineCode']");
+            HtmlNode machineCode = doc.DocumentNode.SelectSingleNode("//*[@id='MachineCode']");
             machineCode.InnerHtml = detail.MachineCode ?? "";
 
-            HtmlNode invoiceCode = doc.DocumentNode.SelectSingleNode("//[@id='InvoiceCode']");
+            HtmlNode invoiceCode = doc.DocumentNode.SelectSingleNode("//*[@id='InvoiceCode']");
             invoiceCode.InnerHtml = detail.InvoiceCode ?? "";
 
-            HtmlNode invoiceNumber = doc.DocumentNode.SelectSingleNode("//[@id='InvoiceNumber']");
+            HtmlNode invoiceNumber = doc.DocumentNode.SelectSingleNode("//*[@id='InvoiceNumber']");
             invoiceNumber.InnerHtml = detail.InvoiceNumber ?? "";
 
-            HtmlNode billingDate = doc.DocumentNode.SelectSingleNode("//[@id='BillingDate']");
+            HtmlNode billingDate = doc.DocumentNode.SelectSingleNode("//*[@id='BillingDate']");
             billingDate.InnerHtml = detail.BillingDate==null ? "": detail.BillingDate.ToString("yyyy年MM月dd日");
 
-            HtmlNode checkCode = doc.DocumentNode.SelectSingleNode("//[@id='CheckCode']");
+            HtmlNode checkCode = doc.DocumentNode.SelectSingleNode("//*[@id='CheckCode']");
             checkCode.InnerHtml = detail.CheckCode ?? "";
 
-            HtmlNode buyerName = doc.DocumentNode.SelectSingleNode("//[@id='Buyer.Name']");
+            HtmlNode buyerName = doc.DocumentNode.SelectSingleNode("//*[@id='Buyer.Name']");
             buyerName.InnerHtml = detail.Buyer.Name ?? "";
 
-            HtmlNode buyerTaxpayerNumber = doc.DocumentNode.SelectSingleNode("//[@id='Buyer.TaxpayerNumber']");
+            HtmlNode buyerTaxpayerNumber = doc.DocumentNode.SelectSingleNode("//*[@id='Buyer.TaxpayerNumber']");
             buyerTaxpayerNumber.InnerHtml = detail.Buyer.TaxpayerNumber ?? "";
 
-            HtmlNode buyerAddress = doc.DocumentNode.SelectSingleNode("//[@id='Buyer.Address']");
+            HtmlNode buyerAddress = doc.DocumentNode.SelectSingleNode("//*[@id='Buyer.Address']");
             buyerAddress.InnerHtml = detail.Buyer.Address ?? "";
 
-            HtmlNode buyerBankAndAccountInfo = doc.DocumentNode.SelectSingleNode("//[@id='Buyer.BankAndAccountInfo']");
+            HtmlNode buyerBankAndAccountInfo = doc.DocumentNode.SelectSingleNode("//*[@id='Buyer.BankAndAccountInfo']");
             buyerBankAndAccountInfo.InnerHtml = detail.Buyer.BankAndAccountInfo ?? "";
 
             MulLine(doc, detail.Password, "PasswordLine", 28);
 
             int yAd = 16;
-            HtmlNode password = doc.DocumentNode.SelectSingleNode("//[@id='Password']");
+            HtmlNode password = doc.DocumentNode.SelectSingleNode("//*[@id='Password']");
             if(detail.Items != null && detail.Items.Count > 0)
             {
                 int index = 0;
                 foreach(var item in detail.Items)
                 {
-                    HtmlNode node = doc.DocumentNode.SelectSingleNode(string.Format("//[@id='item{0}']",index));
+                    HtmlNode node = doc.DocumentNode.SelectSingleNode(string.Format("//*[@id='item{0}']",index==0?0:index-1));
                     int preY = int.Parse(node.Attributes["y"].Value);
                     var parent = node.ParentNode;
                     var newNode = index > 0 ? node.Clone() : node;
-                    
-                    newNode.ChildNodes[0].InnerHtml = item.Name ?? string.Empty;
-                    newNode.ChildNodes[1].InnerHtml = item.Model ?? string.Empty;
-                    newNode.ChildNodes[2].InnerHtml = item.Unit ?? string.Empty;
-                    newNode.ChildNodes[3].InnerHtml = item.Amount <= 0 ? string.Empty : item.Amount.ToString();
-                    newNode.ChildNodes[4].InnerHtml = item.UnitPrice <= 0 ? string.Empty : item.UnitPrice.ToString();
-                    newNode.ChildNodes[5].InnerHtml = item.AmountOfMoney <= 0 ? string.Empty : item.AmountOfMoney.ToString();
-                    newNode.ChildNodes[6].InnerHtml = item.TaxRate <= 0 ? string.Empty : item.TaxRate.ToString();
-                    newNode.ChildNodes[7].InnerHtml = item.Tax <= 0 ? string.Empty : item.Tax.ToString();
+                    var child = newNode.SelectNodes("tspan");
+                    child[0].InnerHtml = item.Name ?? string.Empty;
+                    child[1].InnerHtml = item.Model ?? string.Empty;
+                    child[2].InnerHtml = item.Unit ?? string.Empty;
+                    child[3].InnerHtml = item.Amount <= 0 ? string.Empty : item.Amount.ToString();
+                    child[4].InnerHtml = item.UnitPrice <= 0 ? string.Empty : item.UnitPrice.ToString();
+                    child[5].InnerHtml = item.AmountOfMoney <= 0 ? string.Empty : item.AmountOfMoney.ToString();
+                    child[6].InnerHtml = item.TaxRate <= 0 ? string.Empty : item.TaxRate.ToString();
+                    child[7].InnerHtml = item.Tax <= 0 ? string.Empty : item.Tax.ToString();
                     if(index != 0)
                     {
                         newNode.Attributes["id"].Value = string.Format("item{0}", index);
@@ -88,58 +89,70 @@ namespace WebSite.Areas.Invoice.Controllers
                     index++;
                 }
             }
-            HtmlNode sumAmountOfMoney = doc.DocumentNode.SelectSingleNode("//[@id='SumAmountOfMoney']");
+            HtmlNode sumAmountOfMoney = doc.DocumentNode.SelectSingleNode("//*[@id='SumAmountOfMoney']");
             sumAmountOfMoney.InnerHtml = detail.SumAmountOfMoney().ToString();
 
-            HtmlNode sumTax = doc.DocumentNode.SelectSingleNode("//[@id='SumTax']");
+            HtmlNode sumTax = doc.DocumentNode.SelectSingleNode("//*[@id='SumTax']");
             sumTax.InnerHtml = detail.SumTax().ToString();
 
-            HtmlNode sellerName = doc.DocumentNode.SelectSingleNode("//[@id='Seller.Name']");
+            HtmlNode sumAmountOfMoneyUper = doc.DocumentNode.SelectSingleNode("//*[@id='SumAmountOfMoneyUper']");
+            sumAmountOfMoneyUper.InnerHtml = detail.SumAmountOfMoneyUper().ToString();
+            
+            HtmlNode sellerName = doc.DocumentNode.SelectSingleNode("//*[@id='Seller.Name']");
             sellerName.InnerHtml = detail.Seller.Name ?? "";
 
-            HtmlNode sellerTaxpayerNumber = doc.DocumentNode.SelectSingleNode("//[@id='Seller.TaxpayerNumber']");
+            HtmlNode sellerTaxpayerNumber = doc.DocumentNode.SelectSingleNode("//*[@id='Seller.TaxpayerNumber']");
             sellerTaxpayerNumber.InnerHtml = detail.Seller.TaxpayerNumber ?? "";
 
-            HtmlNode sellerAddress = doc.DocumentNode.SelectSingleNode("//[@id='Seller.Address']");
+            HtmlNode sellerAddress = doc.DocumentNode.SelectSingleNode("//*[@id='Seller.Address']");
             sellerAddress.InnerHtml = detail.Seller.TaxpayerNumber ?? ""+ detail.Seller.Phone ?? "";
 
-            HtmlNode sellerBankAndAccountInfo = doc.DocumentNode.SelectSingleNode("//[@id='Seller.BankAndAccountInfo']");
+            HtmlNode sellerBankAndAccountInfo = doc.DocumentNode.SelectSingleNode("//*[@id='Seller.BankAndAccountInfo']");
             sellerBankAndAccountInfo.InnerHtml = detail.Seller.BankAndAccountInfo ?? "" ;
 
             MulLine(doc, detail.Remark, "RemarkLine", 28);
 
-            HtmlNode payee = doc.DocumentNode.SelectSingleNode("//[@id='Payee']");
+            HtmlNode payee = doc.DocumentNode.SelectSingleNode("//*[@id='Payee']");
             payee.InnerHtml = detail.Payee ?? "";
 
-            HtmlNode review = doc.DocumentNode.SelectSingleNode("//[@id='Review']");
+            HtmlNode review = doc.DocumentNode.SelectSingleNode("//*[@id='Review']");
             review.InnerHtml = detail.Review ?? "";
 
-            HtmlNode printor = doc.DocumentNode.SelectSingleNode("//[@id='Printor']");
+            HtmlNode printor = doc.DocumentNode.SelectSingleNode("//*[@id='Printor']");
             printor.InnerHtml = detail.Printor ?? "";
+            var docstring = doc.DocumentNode.InnerHtml.Replace("viewbox", "viewBox");
 
-            doc.Save(string.Format("{0}download\\{1}.svg",System.AppDomain.CurrentDomain.BaseDirectory,detail.InvoiceNumber) );
-
+            //doc.Save(string.Format("{0}download\\{1}.svg",System.AppDomain.CurrentDomain.BaseDirectory,detail.InvoiceNumber),Encoding.UTF8 );
+            System.IO.File.WriteAllText(string.Format("{0}download\\{1}.svg", System.AppDomain.CurrentDomain.BaseDirectory, detail.InvoiceNumber), docstring);
             return View(detail);
         }
 
         private void MulLine(HtmlDocument doc,string content,string nodeid,int maxlength)
-        {
+        { 
             if (!string.IsNullOrEmpty(content))
             {
-                var lineCount = content.Length / maxlength + 1;
-                for (var i = 0; i < lineCount; i++)
+                var lineCount = content.Length / maxlength ;
+                for (var i = 0; i <= lineCount; i++)
                 {
-                    HtmlNode node = doc.DocumentNode.SelectSingleNode(string.Format("//[@id='{0}{1}']", nodeid, i));
-                    if (((lineCount - 1) * maxlength + maxlength) < content.Length)
+                    HtmlNode node = doc.DocumentNode.SelectSingleNode(string.Format("//*[@id='{0}{1}']", nodeid, i));
+                    if (node != null)
                     {
-                        node.InnerHtml = content.Substring((lineCount - 1) * maxlength, maxlength);
-                    }
-                    else
-                    {
-                        node.InnerHtml = content.Substring((lineCount - 1) * maxlength);
+                        if ((i*maxlength + maxlength) < content.Length)
+                        {
+                            node.InnerHtml = HtmlStringTranc(content.Substring(i*maxlength, maxlength));
+                        }
+                        else
+                        {
+                            node.InnerHtml = HtmlStringTranc(content.Substring(i*maxlength));
+                        }
                     }
                 }
             }
+        }
+
+        public string HtmlStringTranc(string target)
+        {
+            return target.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;");
         }
     }
 }
