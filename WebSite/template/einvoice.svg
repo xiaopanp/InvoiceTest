@@ -61,10 +61,10 @@
             <tspan id="Buyer.BankAndAccountInfo" x="91" dy="14">购买方开户行及账号</tspan>
         </text>
         <text id="Password" class="mono" x="372" y="92.82" style="letter-spacing:1.1;">
-            <tspan id="PasswordLine1"></tspan>
+            <tspan id="PasswordLine0"></tspan>
+            <tspan id="PasswordLine1" x="372" dy="12"></tspan>
             <tspan id="PasswordLine2" x="372" dy="12"></tspan>
             <tspan id="PasswordLine3" x="372" dy="12"></tspan>
-            <tspan id="PasswordLine4" x="372" dy="12"></tspan>
         </text>
 		<text id="item0" x="8.5" y="168">
 			<tspan></tspan>
