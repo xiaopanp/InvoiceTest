@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using Aspose.Pdf;
 using HtmlAgilityPack;
+using Svg;
 using WebSite.Areas.Invoice.Remote;
 
 namespace WebSite.Areas.Invoice.Controllers
@@ -53,6 +55,7 @@ namespace WebSite.Areas.Invoice.Controllers
 
             HtmlNode buyerAddress = doc.DocumentNode.SelectSingleNode("//*[@id='Buyer.Address']");
             buyerAddress.InnerHtml = detail.Buyer.Address ?? "";
+            buyerAddress.InnerHtml += detail.Buyer.Phone ?? "";
 
             HtmlNode buyerBankAndAccountInfo = doc.DocumentNode.SelectSingleNode("//*[@id='Buyer.BankAndAccountInfo']");
             buyerBankAndAccountInfo.InnerHtml = detail.Buyer.BankAndAccountInfo ?? "";
@@ -105,8 +108,8 @@ namespace WebSite.Areas.Invoice.Controllers
             sellerTaxpayerNumber.InnerHtml = detail.Seller.TaxpayerNumber ?? "";
 
             HtmlNode sellerAddress = doc.DocumentNode.SelectSingleNode("//*[@id='Seller.Address']");
-            sellerAddress.InnerHtml = detail.Seller.TaxpayerNumber ?? ""+ detail.Seller.Phone ?? "";
-
+            sellerAddress.InnerHtml = detail.Seller.Address ?? "";
+            sellerAddress.InnerHtml +=detail.Seller.Phone ?? "";
             HtmlNode sellerBankAndAccountInfo = doc.DocumentNode.SelectSingleNode("//*[@id='Seller.BankAndAccountInfo']");
             sellerBankAndAccountInfo.InnerHtml = detail.Seller.BankAndAccountInfo ?? "" ;
 
@@ -120,10 +123,15 @@ namespace WebSite.Areas.Invoice.Controllers
 
             HtmlNode printor = doc.DocumentNode.SelectSingleNode("//*[@id='Printor']");
             printor.InnerHtml = detail.Printor ?? "";
+            //需要优化，直接保存 viewBag属性会变成小写，导致错误
             var docstring = doc.DocumentNode.InnerHtml.Replace("viewbox", "viewBox");
-
             //doc.Save(string.Format("{0}download\\{1}.svg",System.AppDomain.CurrentDomain.BaseDirectory,detail.InvoiceNumber),Encoding.UTF8 );
-            System.IO.File.WriteAllText(string.Format("{0}download\\{1}.svg", System.AppDomain.CurrentDomain.BaseDirectory, detail.InvoiceNumber), docstring);
+            var filename = string.Format("{0}download\\{1}.svg", System.AppDomain.CurrentDomain.BaseDirectory,detail.InvoiceNumber);
+            System.IO.File.WriteAllText(filename, docstring);
+            SvgDocument svgDoc = SvgDocument.Open(filename);
+            var svgImage = svgDoc.Draw();
+            svgImage.Save(filename.Replace(".svg", ".png"));
+            detail.DownLoadUrl = string.Format("{0}download/{1}.svg", "../../", detail.InvoiceNumber);
             return View(detail);
         }
 

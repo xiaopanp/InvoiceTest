@@ -77,6 +77,11 @@ namespace WebSite.Areas.Invoice.Models
         /// 密码区
         /// </summary>
         public virtual string Password { get; set; }
+
+        /// <summary>
+        /// 下载链接
+        /// </summary>
+        public virtual string DownLoadUrl { get; set; }
         /// <summary>
         /// 价税合计
         /// </summary>

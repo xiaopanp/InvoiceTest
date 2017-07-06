@@ -95,7 +95,7 @@
                             </ul>
                             <div class="Suc_btn clearfix tc">
                                 <div class="btn fl" id="btnSendEmail">发送到邮箱</div>
-                                <div class="fr btn" onclick="javascript: window.open('http://ei.51fapiao.cn:9080/51ptProxy_dj/fpxz?p=7d0d4806082f4f118d838301a1ae8d1d');" id="pdfDpwn">下载电子发票</div>
+                                <div class="fr btn" onclick="javascript: window.open('@(Model.DownLoadUrl)');" id="pdfDpwn">下载电子发票</div>
                             </div>
                         </div>
                     </div>
@@ -163,17 +163,17 @@
         var params = {};
         params.method = "emailPushHandle";
         params.EMAILADDRESS = emailAddress;
-        businessExec("billingService", params, function (data) {
-            if (data.suc == "true") {
-                $(".title").html("您的电子发票已发送到");
-                $(".email_info").html(emailAddress);
-                $("#emailSended").show("300");
-            } else {
-                $(".title").html("邮件发送异常，请稍后再试！");
-                $(".email_info").html("");
-                $("#emailSended").show("300");
-            }
-        });
+//        businessExec("billingService", params, function (data) {
+//            if (data.suc == "true") {
+//                $(".title").html("您的电子发票已发送到");
+//                $(".email_info").html(emailAddress);
+//                $("#emailSended").show("300");
+//            } else {
+//                $(".title").html("邮件发送异常，请稍后再试！");
+//                $(".email_info").html("");
+//                $("#emailSended").show("300");
+//            }
+//        });
     });
     $("#emailSendedClose,.down").click(function (event) {
         var display = $("#emailInput").css("display");

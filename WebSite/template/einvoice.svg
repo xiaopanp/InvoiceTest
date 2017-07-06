@@ -3,7 +3,7 @@
     <style type="text/css">
         <![CDATA[
         g.background path{fill:#9d6b17;}
-        text{font-family:STHeiti, SimHei;font-size:9px;over}
+        text{font-family:STHeiti, SimHei;font-size:9px;}
         text.mono{font-family:Courier, Monaco;}
         ]]>
     </style>
