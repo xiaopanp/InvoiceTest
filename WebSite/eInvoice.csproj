@@ -125,11 +125,20 @@
     <Compile Include="Areas\Invoice\InvoiceAreaRegistration.cs" />
     <Compile Include="Areas\Invoice\Models\InvoiceItemModel.cs" />
     <Compile Include="Areas\Invoice\Models\InvoiceModel.cs" />
+    <Compile Include="Areas\Invoice\Models\MadeOutInvoceInput.cs" />
+    <Compile Include="Areas\Invoice\Models\QueryInoviceInput.cs" />
+    <Compile Include="Areas\Invoice\Models\QueryInoviceData.cs" />
+    <Compile Include="Areas\Invoice\Models\QueryInoviceResult.cs" />
+    <Compile Include="Areas\Invoice\Models\ShopperInfo.cs" />
     <Compile Include="Areas\Invoice\Models\TaxpayerModel.cs" />
     <Compile Include="Areas\Invoice\Remote\IInvoice.cs" />
     <Compile Include="Areas\Invoice\Remote\MockInvoiceManager .cs" />
     <Compile Include="Areas\Invoice\Remote\InvoiceManager.cs" />
     <Compile Include="Areas\Invoice\RmbCapitalization.cs" />
+    <Compile Include="Common\HttpUtil.cs" />
+    <Compile Include="Common\IHttpAuthorization.cs" />
+    <Compile Include="Common\Streams.cs" />
+    <Compile Include="Common\Strings.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -160,6 +169,9 @@
     <Content Include="Areas\Invoice\Views\Home\Index.cshtml" />
     <Content Include="Areas\Invoice\Views\Home\Detail.cshtml" />
     <Content Include="Areas\Invoice\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Invoice\Views\Home\Query.cshtml" />
+    <Content Include="Areas\Invoice\Views\Home\Made.cshtml" />
+    <Content Include="Areas\Invoice\Views\Home\header.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Invoice\common.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

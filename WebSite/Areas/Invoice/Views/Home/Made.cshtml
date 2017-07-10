@@ -1,0 +1,107 @@
+﻿@{
+    ViewBag.Title = "About";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="app">
+    <div class="">
+        @RenderPage("header.cshtml")
+@using (Ajax.BeginForm("MadeSumit", "Home", new { area = "Invoice" }, new AjaxOptions {HttpMethod = "post"}))
+{
+    <!-- 主要区域 -->
+    <section id="main" class="main invoice invoiceSuccess">
+        <div>
+            <!-- 中英文切换按钮 -->
+            <div class="togBtn">
+                <!-- 当前的语言的当前颜色now -->
+                <a href="" class="now">中文&nbsp;</a>/
+                <a href="" class="">English</a>
+            </div>
+            <div class="block">
+                <div class="box container">
+                    <div class="invoiceSuccess_in">
+                        <ul>
+                            <li class="clearfix">
+                                <p class="fl">发票抬头</p>
+                                <p class="fr">
+                                    <input name="shopperInfo.invoiceTitle" id="ipt_password" type="text" value="个人（叶工）"/>
+                                </p>
+                            </li>
+
+                            <li class="clearfix">
+                                <p class="fl">购货方手机号</p>
+                                <p class="fr">
+                                    <input name="shopperInfo.mobilePhone" id="ipt_password" type="text" value="13600927865"/>
+                                </p>
+                            </li>
+                            <li class="clearfix">
+                                <p class="fl">购货方企业类型1：企业 2：机关事业单位 3：个人 4：其它</p>
+                                <p class="fr">
+                                    <input name="shopperInfo.industryType" id="ipt_password" type="text"  value="3"/>
+                                </p>
+                            </li>
+                            <li class="clearfix">
+                                <p class="fl">ticketSn</p>
+                                <p class="fr"><input name="ticketSn" id="ipt_ticketSn" type="text" value="201703191723038690020"/>
+                                </p>
+                            </li>
+                            <li class="clearfix ">
+                                <p class="fl">account</p>
+                                <p class="fr"><input name="account" id="ipt_account" type="text"  value="adasun4"/>
+                                </p>
+                            </li>
+                            <li class="clearfix">
+                                <p class="fl">password</p>
+                                <p class="fr"><input name="password" id="ipt_password" type="text"  value="123456"/>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="invoiceSuccess_in out"> 
+                        <ul>
+                            <li class="clearfix">
+                                <p class="fl">购货方省份</p>
+                                <p class="fr"><input name="shopperInfo.province" id="ipt_password" type="text" /></p>
+                            </li>
+                            <li class="clearfix">
+                                <p class="fl">购货方地址</p>
+                                <p class="fr"><input name="shopperInfo.address" id="ipt_password" type="text" /></p>
+                            </li>
+                            <li class="clearfix">
+                                <p class="fl">购货方邮箱</p>
+                                <p class="fr"><input name="shopperInfo.email" id="ipt_password" type="text"/>
+                                </p>
+                            </li>
+                            <li class="clearfix">
+                                <p class="fl">购货方固定电话</p>
+                                <p class="fr"><input name="shopperInfo.telePhone" id="ipt_password" type="text"/>
+                                </p>
+                            </li>
+                            <li class="clearfix">
+                                <p class="fl">购货方识别号</p>
+                                <p class="fr"><input name="shopperInfo.taxpayerIdentificationNumber" id="ipt_password" type="text"/>
+                                </p>
+                            </li>
+                            <li class="clearfix">
+                                <p class="fl">购货方银行账号</p>
+                                <p class="fr"><input name="shopperInfo.bankAccount" id="ipt_password" type="text" /></p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="invoiceSuccess_in out">
+                        <div class="Suc_btn clearfix tc">
+                            <div class="fr btn" onclick="$('#madeSubmint').click();" id="pdfDpwn">查询</div>
+                            <input type="submit" id="madeSubmint" style="display: none"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+    </div>
+</div>
+@section scripts{
+    <script language="javascript" type="text/javascript">
+
+    </script>
+}

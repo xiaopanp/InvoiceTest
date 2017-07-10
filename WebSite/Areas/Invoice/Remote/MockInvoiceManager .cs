@@ -66,5 +66,15 @@ namespace WebSite.Areas.Invoice.Remote
             model.Remark = "13599935081起止时间:20170401-20170430;购买充值卡时请索取发票。“折扣折让”指您获赠的话费中当月实际使用金额。“充值卡已出具发票金额”指当月实际使用的充值卡金额。受理流水: (436380516752)";
             return model;
         }
+
+        public QueryInoviceResult MadeOutInvoce(MadeOutInvoceInput input)
+        {
+            throw new NotImplementedException();
+        }
+
+        public QueryInoviceResult QueryInovice(QueryInoviceInput input)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

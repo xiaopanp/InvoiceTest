@@ -26,5 +26,14 @@ namespace WebSite.Controllers
 
             return View();
         }
+
+        [HttpPost]
+        public ActionResult QueryInovice()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return new JsonResult();
+        }
+
     }
 }

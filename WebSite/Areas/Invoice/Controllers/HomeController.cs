@@ -7,7 +7,9 @@ using System.Web.Mvc;
 using Aspose.Pdf;
 using HtmlAgilityPack;
 using Svg;
+using WebSite.Areas.Invoice.Models;
 using WebSite.Areas.Invoice.Remote;
+using WebSite.Common;
 
 namespace WebSite.Areas.Invoice.Controllers
 {
@@ -22,14 +24,80 @@ namespace WebSite.Areas.Invoice.Controllers
         }
 
         // GET: Invoice/Home
-        public ActionResult Detail(string invoiceToket)
+        public ActionResult Detail(string ticketSn, string account, string password)
         {
             //调用查询接口
-            IInvoice invoice = new MockInvoiceManager();
-            var detail = invoice.GetInvoiceDetail(invoiceToket);
+            IInvoice invoice = new InvoiceManager(); 
+
+            //GeneralEInvoice(detail);
+            //detail.DownLoadUrl = string.Format("{0}download/{1}.svg", "../../", detail.InvoiceNumber);
+
+            var input = new QueryInoviceInput()
+            {
+                ticketSn = ticketSn,
+                account = account,
+                password = password
+            };
+//            var input2 = new MadeOutInvoceInput()
+//            {
+//                ticketSn = "201703191723038690020",
+//                account = "adasun4",
+//                shopperInfo = new ShopperInfo()
+//                {
+//                    email= "673874424@qq.com",
+//                    mobilePhone="13600927865",
+//                    invoiceTitle= "个人（叶工）",
+//                    industryType= 3
+//                },
+//                password = "123456"
+//            };
+
+            var result = invoice.QueryInovice(input);
+
+//            var result2 = invoice.MadeOutInvoce(input2);
+
+            return View(result);
+        }
+
+        public ActionResult QueryView()
+        {
+            return View("Query");
+        }
+        public ActionResult MadeSumit(MadeOutInvoceInput input)
+        {
+            IInvoice invoice = new InvoiceManager();
+            var result = invoice.MadeOutInvoce(input);
+            return View("Detail",result);
+        }
+
+        public ActionResult MadeView()
+        {
+            return View("Made");
+        }
+        [HttpPost]
+        public ActionResult Query(QueryInoviceInput input)
+        {
+           IInvoice invoice = new InvoiceManager();
+           var result = invoice.QueryInovice(input);
+           JsonResult jsonResult = new JsonResult();
+           jsonResult.Data = result;
+           return jsonResult;
+        }
+        [HttpPost]
+        public ActionResult Made(MadeOutInvoceInput input)
+        {
+            IInvoice invoice = new InvoiceManager();
+            var result = invoice.MadeOutInvoce(input);
+            JsonResult jsonResult = new JsonResult();
+            jsonResult.Data = result;
+            return jsonResult;
+        }
+
+        private void GeneralEInvoice(InvoiceModel detail)
+        {
             //生成pdf
             HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
-            doc.Load(System.AppDomain.CurrentDomain.BaseDirectory+"template\\einvoice.svg",Encoding.UTF8);
+            doc.Load(System.AppDomain.CurrentDomain.BaseDirectory + "template\\einvoice.svg", Encoding.UTF8);
             //自动发送邮件
 
             HtmlNode machineCode = doc.DocumentNode.SelectSingleNode("//*[@id='MachineCode']");
@@ -42,7 +110,7 @@ namespace WebSite.Areas.Invoice.Controllers
             invoiceNumber.InnerHtml = detail.InvoiceNumber ?? "";
 
             HtmlNode billingDate = doc.DocumentNode.SelectSingleNode("//*[@id='BillingDate']");
-            billingDate.InnerHtml = detail.BillingDate==null ? "": detail.BillingDate.ToString("yyyy年MM月dd日");
+            billingDate.InnerHtml = detail.BillingDate == null ? "" : detail.BillingDate.ToString("yyyy年MM月dd日");
 
             HtmlNode checkCode = doc.DocumentNode.SelectSingleNode("//*[@id='CheckCode']");
             checkCode.InnerHtml = detail.CheckCode ?? "";
@@ -64,12 +132,13 @@ namespace WebSite.Areas.Invoice.Controllers
 
             int yAd = 16;
             HtmlNode password = doc.DocumentNode.SelectSingleNode("//*[@id='Password']");
-            if(detail.Items != null && detail.Items.Count > 0)
+            if (detail.Items != null && detail.Items.Count > 0)
             {
                 int index = 0;
-                foreach(var item in detail.Items)
+                foreach (var item in detail.Items)
                 {
-                    HtmlNode node = doc.DocumentNode.SelectSingleNode(string.Format("//*[@id='item{0}']",index==0?0:index-1));
+                    HtmlNode node =
+                        doc.DocumentNode.SelectSingleNode(string.Format("//*[@id='item{0}']", index == 0 ? 0 : index - 1));
                     int preY = int.Parse(node.Attributes["y"].Value);
                     var parent = node.ParentNode;
                     var newNode = index > 0 ? node.Clone() : node;
@@ -82,7 +151,7 @@ namespace WebSite.Areas.Invoice.Controllers
                     child[5].InnerHtml = item.AmountOfMoney <= 0 ? string.Empty : item.AmountOfMoney.ToString();
                     child[6].InnerHtml = item.TaxRate <= 0 ? string.Empty : item.TaxRate.ToString();
                     child[7].InnerHtml = item.Tax <= 0 ? string.Empty : item.Tax.ToString();
-                    if(index != 0)
+                    if (index != 0)
                     {
                         newNode.Attributes["id"].Value = string.Format("item{0}", index);
                         newNode.Attributes["y"].Value = (preY + yAd).ToString();
@@ -100,7 +169,7 @@ namespace WebSite.Areas.Invoice.Controllers
 
             HtmlNode sumAmountOfMoneyUper = doc.DocumentNode.SelectSingleNode("//*[@id='SumAmountOfMoneyUper']");
             sumAmountOfMoneyUper.InnerHtml = detail.SumAmountOfMoneyUper().ToString();
-            
+
             HtmlNode sellerName = doc.DocumentNode.SelectSingleNode("//*[@id='Seller.Name']");
             sellerName.InnerHtml = detail.Seller.Name ?? "";
 
@@ -109,9 +178,9 @@ namespace WebSite.Areas.Invoice.Controllers
 
             HtmlNode sellerAddress = doc.DocumentNode.SelectSingleNode("//*[@id='Seller.Address']");
             sellerAddress.InnerHtml = detail.Seller.Address ?? "";
-            sellerAddress.InnerHtml +=detail.Seller.Phone ?? "";
+            sellerAddress.InnerHtml += detail.Seller.Phone ?? "";
             HtmlNode sellerBankAndAccountInfo = doc.DocumentNode.SelectSingleNode("//*[@id='Seller.BankAndAccountInfo']");
-            sellerBankAndAccountInfo.InnerHtml = detail.Seller.BankAndAccountInfo ?? "" ;
+            sellerBankAndAccountInfo.InnerHtml = detail.Seller.BankAndAccountInfo ?? "";
 
             MulLine(doc, detail.Remark, "RemarkLine", 28);
 
@@ -126,13 +195,12 @@ namespace WebSite.Areas.Invoice.Controllers
             //需要优化，直接保存 viewBag属性会变成小写，导致错误
             var docstring = doc.DocumentNode.InnerHtml.Replace("viewbox", "viewBox");
             //doc.Save(string.Format("{0}download\\{1}.svg",System.AppDomain.CurrentDomain.BaseDirectory,detail.InvoiceNumber),Encoding.UTF8 );
-            var filename = string.Format("{0}download\\{1}.svg", System.AppDomain.CurrentDomain.BaseDirectory,detail.InvoiceNumber);
+            var filename = string.Format("{0}download\\{1}.svg", System.AppDomain.CurrentDomain.BaseDirectory,
+                detail.InvoiceNumber);
             System.IO.File.WriteAllText(filename, docstring);
             SvgDocument svgDoc = SvgDocument.Open(filename);
             var svgImage = svgDoc.Draw();
             svgImage.Save(filename.Replace(".svg", ".png"));
-            detail.DownLoadUrl = string.Format("{0}download/{1}.svg", "../../", detail.InvoiceNumber);
-            return View(detail);
         }
 
         private void MulLine(HtmlDocument doc,string content,string nodeid,int maxlength)

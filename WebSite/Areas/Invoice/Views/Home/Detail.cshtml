@@ -4,117 +4,100 @@
 } 
 <div id="app">
     <div class="">
-        <header id="header">
-            <div class="loader">
-                <div class="loader-progress" style="width:0%;"></div>
-            </div>
-            <div class="header-container">
-                <!-- 菜单按钮  隐藏 -->
-                <!-- <div id="sidebar">
-                    <button>菜单</button>
-                </div> --> 
-            </div>
-            <div class="notification-list label notification-list-empty"></div>
-            <!-- 公告 -->
-            <div class="noticeIcon"><i class="triangle"></i></div>
-            <div class="noticeCon">
-                <header class="noticeConHd">关于变更电子发票的公告</header>
-                <div class="noticeMain">
-                    <p class="conHd">尊敬的顾客：</p>
-                    <p class="paragraph">根据《关于推行通过增值税电子发票系统开具的增值税电子普通发票有关问题的公告》（国家税务总局公告2015年第84号），我司已逐步在部分星巴克门店推行增值税电子普通发票。如顾客需要纸质发票，可以自行打印增值税电子普通发票的版式文件，其法律效力、基本用途、基本使用规定等与税务机关监制的增值税普通发票相同。</p>
-                    <p class="paragraph">您可通过扫描收银条下方的二维码或输入电子发票提取码的方式开具增值税电子普通发票。如您对电子发票的开具有任何疑问，请点击查看<a class="answer" href="">常见问题解答</a>或致电收银条上的电子发票服务热线垂询。</p>
-                    <p class="conFt">2016年12月20日</p>
-                </div>
-            </div>
-        </header>
+        @RenderPage("header.cshtml")
         <!-- 主要区域 -->
-        <section id="main" class="main invoice invoiceSuccess">
-            <div>
-                <!-- 中英文切换按钮 -->
-                <div class="togBtn">
-                    <!-- 当前的语言的当前颜色now -->
-                    <a href="" class="now">中文&nbsp;</a>/
-                    <a href="" class="">English</a>
-                </div>
-                <h1 class="hot">开票成功！</h1>
-                <div class="block">
-                    <div class="box container">
-                        <div class="invoiceSuccess_in">
-                            <header class="clearfix ">
-                                <p class="fl">发票抬头</p>
-                                <p class="fr">@Model.InvoiceHeader</p>
-                            </header>
-                            <ul>
-                                <li class="clearfix">
-                                    <p class="fl">名称</p>
-                                    <p class="fr">@Model.Seller.Name</p>
-                                </li>
-                                <li class="clearfix ">
-                                    <p class="fl">税号</p>
-                                    <p class="fr">@Model.Seller.TaxpayerNumber</p>
-                                </li>
-                                <li class="clearfix">
-                                    <p class="fl">地址</p>
-                                    <p class="fr">@Model.Seller.Address</p>
-                                </li>
-                                <li class="clearfix">
-                                    <p class="fl">电话</p>
-                                    <p class="fr">@Model.Seller.Phone</p>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- check the email 2 hours later -->
-                        <div class="tipsContainer tc">
-                            <p>电子发票会自动发送到您的邮箱</p>
-                            <p>请在24小时后查收</p>
-                        </div>
-                        <div class="invoiceSuccess_in out">
-                            <ul class="nodash">
-                                <li class="clearfix">
-                                    <p class="fl">金额</p>
-                                    <p class="fr">￥@(Model.SumAmountOfMoney())</p>
-                                </li>
-                                <li class="clearfix ">
-                                    <p class="fl">税额</p>
-                                    <p class="fr">￥@(Model.SumTax())</p>
-                                </li>
-                                <li class="clearfix">
-                                    <p class="fl">价税合计</p>
-                                    <p class="fr">￥@(Model.SumAmountOfMoney()+Model.SumTax())</p>
-                                </li>
-                            </ul>
-                            <ul>
-                                <li class="clearfix">
-                                    <p class="fl">发票代码</p>
-                                    <p class="fr">@Model.InvoiceCode</p>
-                                </li>
-                                <li class="clearfix ">
-                                    <p class="fl">发票号码</p>
-                                    <p class="fr">@Model.InvoiceNumber</p>
-                                </li>
-                            </ul>
-                            <div class="Suc_btn clearfix tc">
-                                <div class="btn fl" id="btnSendEmail">发送到邮箱</div>
-                                <div class="fr btn" onclick="javascript: window.open('@(Model.DownLoadUrl)');" id="pdfDpwn">下载电子发票</div>
+        @if (Model.status == "success")
+        {
+            <section id="main" class="main invoice invoiceSuccess">
+                <div>
+                    <!-- 中英文切换按钮 -->
+                    <div class="togBtn">
+                        <!-- 当前的语言的当前颜色now -->
+                        <a href="" class="now">中文&nbsp;</a>/
+                        <a href="" class="">English</a>
+                    </div>
+                    <h1 class="hot">开票成功！</h1>
+                    <div class="block">
+                        <div class="box container">
+                            <div class="invoiceSuccess_in">
+                                <header class="clearfix ">
+                                    <p class="fl">发票抬头</p>
+                                    <p class="fr">@Model.data.invoiceTitle</p>
+                                </header>
+                                <ul>
+                                    <li class="clearfix">
+                                        <p class="fl">名称</p>
+                                        <p class="fr">@Model.data.taxpayerCompany</p>
+                                    </li>
+                                    <li class="clearfix ">
+                                        <p class="fl">税号</p>
+                                        <p class="fr">@Model.data.taxpayerId</p>
+                                    </li>
+                                    <li class="clearfix">
+                                        <p class="fl">地址</p>
+                                        <p class="fr">@Model.data.taxpayerCompanyAddress</p>
+                                    </li>
+                                    <li class="clearfix">
+                                        <p class="fl">电话</p>
+                                        <p class="fr">@Model.data.taxpayerCompanyTel</p>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- check the email 2 hours later -->
+                            <div class="tipsContainer tc">
+                                <p>电子发票会自动发送到您的邮箱</p>
+                                <p>请在24小时后查收</p>
+                            </div>
+                            <div class="invoiceSuccess_in out">
+                                <ul class="nodash">
+                                    <li class="clearfix">
+                                        <p class="fl">金额</p>
+                                        <p class="fr">￥@(Model.data.amountForTax)</p>
+                                    </li>
+                                    <li class="clearfix ">
+                                        <p class="fl">税额</p>
+                                        <p class="fr">￥@(Model.data.amountOfTax)</p>
+                                    </li>
+                                    <li class="clearfix">
+                                        <p class="fl">价税合计</p>
+                                        <p class="fr">￥@(Model.data.totalAmount)</p>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li class="clearfix">
+                                        <p class="fl">发票代码</p>
+                                        <p class="fr">@Model.data.invoceCode</p>
+                                    </li>
+                                    <li class="clearfix ">
+                                        <p class="fl">发票号码</p>
+                                        <p class="fr">@Model.data.invoiceNumber</p>
+                                    </li>
+                                </ul>
+                                <div class="Suc_btn clearfix tc">
+                                    <div class="btn fl" id="btnSendEmail">发送到邮箱</div>
+                                    <div class="fr btn" onclick="javascript: window.open('@(Model.data.downloadUrl)');" id="pdfDpwn">下载电子发票</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-        <!--开票失败提示-->
-        <section class="main invoice invoiceFail" style="display:none;">
-            <div>
-                <div class="block">
-                    <div class="box container tc">
-                        <img src="">
-                        <p class="">很抱歉，开票失败</p>
-                        <p class="">请稍后重试或联系客服 <span class="tel">400-820-6998</span></p>
+            </section>
+        }
+        else
+        {
+            <!--开票失败提示-->
+            <section class="main invoice invoiceFail">
+                <div>
+                    <div class="block">
+                        <div class="box container tc">
+                            <img src="">
+                            <p class="">很抱歉，开票失败</p>
+                            <p class="">请稍后重试或联系客服 <span class="tel"></span></p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
-
+            </section>
+        }
         <!-- email input popup -->
         <div class="down"></div>
         <div id="emailInput" class="invoice_down tc">

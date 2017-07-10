@@ -8,6 +8,7 @@ namespace WebSite.Areas.Invoice.Remote
 {
     public interface IInvoice
     {
-        InvoiceModel GetInvoiceDetail(string ticket);
+        QueryInoviceResult MadeOutInvoce(MadeOutInvoceInput input);
+        QueryInoviceResult QueryInovice(QueryInoviceInput input);
     }
 }

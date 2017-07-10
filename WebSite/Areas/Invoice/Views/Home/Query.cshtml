@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "About";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+} 
+<div id="app">
+    <div class="">
+        @RenderPage("header.cshtml")
+        <!-- 主要区域 -->
+        <section id="main" class="main invoice invoiceSuccess">
+            <div>
+                <!-- 中英文切换按钮 -->
+                <div class="togBtn">
+                    <!-- 当前的语言的当前颜色now -->
+                    <a href="" class="now">中文&nbsp;</a>/
+                    <a href="" class="">English</a>
+                </div> 
+                <div class="block">
+                    <div class="box container">
+                        <div class="invoiceSuccess_in">
+                            <ul>
+                                <li class="clearfix">
+                                    <p class="fl">ticketSn</p>
+                                    <p class="fr"><input id="ipt_ticketSn" type="text"/></p>
+                                </li>
+                                <li class="clearfix ">
+                                    <p class="fl">account</p>
+                                    <p class="fr"><input id="ipt_account" type="text" /></p>
+                                </li>
+                                <li class="clearfix">
+                                    <p class="fl">password</p>
+                                    <p class="fr"><input id="ipt_password" type="text" /></p>
+                                </li> 
+                            </ul>
+                        </div>
+                        <div class="invoiceSuccess_in out"> 
+                            <div class="Suc_btn clearfix tc"> 
+                                <div class="fr btn" onclick="QueryFun();" id="pdfDpwn">查询</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section> 
+    </div>
+</div>
+@section scripts{
+<script language="javascript" type="text/javascript">
+    function QueryFun() {
+        var url='@Url.Action("Detail", "Home", new { area = "Invoice" })';
+        url += "?ticketSn="+$("#ipt_ticketSn").val();
+        url += "&account="+$("#ipt_account").val();
+        url += "&password="+$("#ipt_password").val();
+        window.location.href = url;
+    }
+</script>
+}
